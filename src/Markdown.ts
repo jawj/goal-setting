@@ -9,24 +9,18 @@ const
   }),
   render = (s: string) => {
     const
-      trimmed = s.replace(/^\s*[\n\r]+/, '').trimRight(),
-      leadingWhitespaceRegExp = /^(\s*)(.*)$/mg;
-
-    let
-      matchArr,
-      minIndent = Infinity;
-
-    while ((matchArr = leadingWhitespaceRegExp.exec(trimmed))) {
-      minIndent =
-        matchArr[2] ? Math.min(minIndent, matchArr[1].length) :  // if this line has any non-space content, check the indent
-          minIndent;
-    }
-
-    const
-      indentRegExp = new RegExp(`^\\s{${minIndent}}`, 'mg'),
-      unindented = trimmed.replace(indentRegExp, ''),
+      onlyWhitespaceRegExp = /^\s*$/,
+      leadingWhitespaceRegExp = /^[\t ]*/,
+      minIndent = s.split(/[\n\r]+/)
+        .filter(l => !l.match(onlyWhitespaceRegExp))
+        .reduce((leadingWhitespace, l) =>
+          Math.min(leadingWhitespace, l.match(leadingWhitespaceRegExp)![0].length),
+          Infinity),
+      indentRegExp = new RegExp(`^[\\t ]{${minIndent}}`, 'mg'),
+      unindented = s.replace(indentRegExp, ''),
       rendered = markdown.render(unindented);
 
+    console.log(minIndent, unindented);
     return rendered;
   };
 

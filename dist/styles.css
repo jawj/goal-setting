@@ -34,9 +34,12 @@ button:hover {
   background: #444;
 }
 button:active {
-  background: #fd4;
+  background: #fff;
   border-color: #444;
   color: #444;
+}
+button:focus {
+  outline: none;
 }
 
 .heading {
@@ -57,5 +60,6 @@ button:active {
 }
 
 .navigation {
+  margin: 3em 0;
   text-align: center;
 }
