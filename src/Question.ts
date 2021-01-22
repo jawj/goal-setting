@@ -1,26 +1,52 @@
+
 import m from 'mithril';
 import Markdown from './Markdown';
-import * as state from './state';
+import { getAnswer, setAnswer, isAnswerValid, markAnswerValid, Answers } from './answers';
+import * as utils from './utils';
 
 interface QuestionAttrs {
-  id: keyof state.State;
+  id: keyof Answers;
   size: 'small' | 'medium' | 'large';
   placeholder?: string;
   minChars?: number;
+  minWords?: number;
 }
 
-export default {
-  view: (vnode: m.Vnode<QuestionAttrs>) =>
-    m('div.question',
+const updateValid = (vnode: m.Vnode<QuestionAttrs>) => {
+  const
+    { id, minChars, minWords } = vnode.attrs,
+    value = getAnswer(id),
+    valid =
+      !!(!minChars || (value && value.length >= minChars)) &&
+      !!(!minWords || (value && utils.wordCount(value) >= minWords));
+
+  markAnswerValid(id, valid);
+  m.redraw();
+};
+
+export const Question: m.Component<QuestionAttrs> & { type: string } = {
+  type: 'question',
+  oninit: updateValid,
+  view: (vnode) => {
+    const
+      { id } = vnode.attrs,
+      valid = isAnswerValid(id);
+
+    return m('div.question',
       m('div.questionText', m(Markdown, vnode.children)),
-      m('p',
+      m(`p.${valid ? 'complete' : 'incomplete'}`,
         m('textarea',
           {
-            rows: vnode.attrs.size === 'large' ? 24 : vnode.attrs.size === 'medium' ? 8 : 1,
-            oninput: (e: Event) => state.setState(vnode.attrs.id, (e.currentTarget as HTMLTextAreaElement).value)
+            rows: vnode.attrs.size === 'large' ? 15 : vnode.attrs.size === 'medium' ? 5 : 1,
+            oninput: (e: Event) => {
+              const { value } = e.currentTarget as HTMLTextAreaElement;
+              setAnswer(id, value);
+              updateValid(vnode);
+            }
           },
-          state.getState(vnode.attrs.id)
+          getAnswer(id),
         )
       )
-    )
-} as m.Component<QuestionAttrs>;
+    );
+  }
+};

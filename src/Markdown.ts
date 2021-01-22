@@ -20,7 +20,6 @@ const
       unindented = s.replace(indentRegExp, ''),
       rendered = markdown.render(unindented);
 
-    console.log(minIndent, unindented);
     return rendered;
   };
 
