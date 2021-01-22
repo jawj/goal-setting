@@ -34,7 +34,7 @@ export const Question: m.Component<QuestionAttrs> & { type: string } = {
 
     return m('div.question',
       m('div.questionText', m(Markdown, vnode.children)),
-      m(`p.${valid ? 'complete' : 'incomplete'}`,
+      m(`p.response.${valid ? 'complete' : 'incomplete'}`,
         m('textarea',
           {
             rows: vnode.attrs.size === 'large' ? 15 : vnode.attrs.size === 'medium' ? 5 : 1,

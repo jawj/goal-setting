@@ -23,11 +23,16 @@ textarea {
   box-sizing: border-box;
 }
 
-p.incomplete:before {
-    content: '*';
-    position: absolute;
-    margin-left: -1em;
-    color: #888;
+p.response:before {
+  content: '*';
+  position: absolute;
+  margin-left: -1em;
+  color: #888;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+p.response.incomplete:before {
+  opacity: 1;
 }
 
 button {
@@ -38,6 +43,7 @@ button {
   background: #269;
   border-radius: 20px;
   border: 1px solid transparent;
+  transition: opacity 0.5s;
 }
 button + button {
   margin-left: 0.5em;

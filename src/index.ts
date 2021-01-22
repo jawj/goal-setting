@@ -4,7 +4,7 @@ import { pages } from './pages';
 const Layout = {
   view: (vnode: m.Vnode) => {
     return m('.layout',
-      m('.heading', 'Goal-setting exercise'),
+      m('.heading', 'Setting goals'),
       vnode.children,
     );
   }
