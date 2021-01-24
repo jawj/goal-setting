@@ -1,19 +1,29 @@
+
 html {
   margin: 1em 20%;
   font: 16px/1.4 'Source Serif Pro', serif;
   color: #444;
 }
 
-@media (max-width: 600px) {
-  html {
-    margin: 1em 1em;
-  }
-}
-
 h1, h2, h3, h4, h5 {
   color: #269;
   line-height: 1.05;
   margin-top: 2em;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 30px;
+  max-width: 80%;
+}
+
+@media (max-width: 600px) {
+  html {
+    margin: 1em 1em;
+  }
+  h1 {
+    max-width: none;
+  }
 }
 
 textarea {

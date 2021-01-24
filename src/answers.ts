@@ -3,6 +3,13 @@ export type Answers = Partial<{
   oneThingBetter: string;
   thingsToLearn: string;
   improveHabits: string;
+  idealSocialLife: string;
+  leisureFuture: string;
+  familyFuture: string;
+  careerFuture: string;
+  qualitiesAdmire: string;
+  idealFutureSummary: string;
+  futureAvoidSummary: string;
 }>;
 
 export type AnswersValid = { [K in keyof Answers]?: boolean };

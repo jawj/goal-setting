@@ -37,7 +37,7 @@ export const Question: m.Component<QuestionAttrs> & { type: string } = {
       m(`p.response.${valid ? 'complete' : 'incomplete'}`,
         m('textarea',
           {
-            rows: vnode.attrs.size === 'large' ? 15 : vnode.attrs.size === 'medium' ? 5 : 1,
+            rows: vnode.attrs.size === 'large' ? 10 : vnode.attrs.size === 'medium' ? 5 : 1,
             oninput: (e: Event) => {
               const { value } = e.currentTarget as HTMLTextAreaElement;
               setAnswer(id, value);
