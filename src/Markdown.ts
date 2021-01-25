@@ -24,8 +24,7 @@ const
   };
 
 export default {
-  view: (vnode: m.Vnode) =>
-    Array.isArray(vnode.children) ? vnode.children.map(c => typeof c === 'string' ? m.trust(render(c)) : c) :
-      typeof vnode.children === 'string' ? m.trust(render(vnode.children)) :
-        vnode.children
+  view: (vnode: m.Vnode) => Array.isArray(vnode.children) ? vnode.children.map(c => typeof c === 'string' ? m.trust(render(c)) : c) :
+    typeof vnode.children === 'string' ? m.trust(render(vnode.children)) :
+      vnode.children
 };

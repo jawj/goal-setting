@@ -1,6 +1,8 @@
 import m from 'mithril';
 import { Page } from './Page';
 import { Question } from './Question';
+import { SortableList } from './SortableList';
+import { Answers, getAnswer, GoalIndex, goalIndices, setAnswer } from './answers';
 
 export const pages = <const>[
   {
@@ -225,14 +227,85 @@ export const pages = <const>[
 
         Spend some time, now, thinking about what your life would be like if you failed to define or pursue your goals, if you let your bad habits get out of control, and if you ended up miserable, resentful and bitter. Imagine your life three to five years down the road, if you failed to stay on the path you know you should be on. Use your imagination. Draw on your knowledge of the anxiety and pain you have experienced in the path, when you have betrayed yourself.
 
-        Think about the people you know who have made bad decisions or remained indecisive, or who chronically deceive themselves or other people, or who let cynicism and anger dominate their lives. Where do you not want to be?
+        Think about the people you know who have made bad decisions or remained indecisive, or who chronically deceive themselves or other people, or who let cynicism and anger dominate their lives. Where do you _not_ want to be?
 
         Dream while you write, and don't stop. Write at least until the 15 minutes have passed. Let yourself form a very clear picture of the undesirable future. 
 
         <p class="calm">Don't rush — this exercise is for your benefit.</p>   
       `,
-      m(Question, { id: 'futureAvoidSummary', size: 'large', minWords: 10 }, `Where do you not want to be?`)
+      m(Question, { id: 'futureAvoidSummary', size: 'large', minWords: 10 }, `Where do you _not_ want to be?`)
     )
+  },
+  {
+    id: 'stage2',
+    view: () => m(Page,
+      { title: '_Stage 2_ &nbsp; Specific goal identification: Introduction' },
+      `
+        In this stage, you will first be asked to define and personally title your overall future plan. Then, you will be asked to take your general plans for the ideal future and break them up into more specific goals. Each of these separate goals will also be given its own title. This step will help you clarify your goals.
+      `
+    )
+  },
+  {
+    id: 'ideal-future-title',
+    view: () => m(Page,
+      { title: 'Title and briefly describe your ideal future' },
+      `
+        Please specify a title and brief description for your ideal future as a whole. This can be as simple as "My Ideal Future" in both fields or, if you have something more personal in mind, you can specify that. Imagine that you are both specifying and summarizing your ambitions with this title. This will help you remember what you are aiming for.
+
+        In later screens you can define, prioritize, and analyze specific goals. 
+      `,
+      m(Question, { id: 'idealFutureTitle', size: 'small', minWords: 1 }, `Main goal title`),
+      m(Question, { id: 'idealFutureDescription', size: 'medium', minWords: 1 }, `Main goal description`),
+    )
+  },
+  {
+    id: 'specify-clarify-goals',
+    view: () => m(Page,
+      { title: 'Specifying and clarifying your goals' },
+      `
+        Please break down your ideal future into 6 goals. You can re-word, re-write and organize the relevant material from Stage 1 for your goal summaries, if you wish, or you can rely on your memory.
+
+        These specific goals can be from a number of different domains.
+
+        * A personal goal might be "I would like to be healthier".
+        * A career goal might be "I would like to be more interested in my job".
+        * A social goal might be "I would like to meet more people".
+
+        The summaries you write about each goal should be reasonably brief and memorable. Make sure that each goal summary includes nothing but the most important information. Take 10-15 minutes for this part of the exercise. Feel free to revise and edit.
+      `,
+      ...(goalIndices.reduce<any[]>((memo, index) => memo.concat([
+        `### Goal ${index}`,
+        m(Question, { id: `goalTitle${index}` as any, size: 'small', minWords: 1 }, `Main goal title`),
+        m(Question, { id: `goalDescription${index}` as any, size: 'medium', minWords: 1 }, `Main goal description`),
+      ]), [])
+      )
+    )
+  },
+  {
+    id: 'prioritise-goals',
+    view: () => {
+      if (!getAnswer('goalPriorities')) setAnswer('goalPriorities', JSON.stringify(goalIndices));
+
+      const
+        priorities: GoalIndex[] = JSON.parse(getAnswer('goalPriorities')!),
+        items = priorities.map(i => getAnswer(`goalTitle${i}` as keyof Answers) ?? '');
+
+      return m(Page,
+        { title: 'Prioritising your goals' },
+        `
+        Please organize your goals by dragging and dropping them. Give your most important goal a rank of 1 (first place), your next most important goal a rank of 2 (second place), and so on. 
+      `,
+        m(SortableList, {
+          items,
+          onUpdate: ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
+            const priorities = JSON.parse(getAnswer('goalPriorities')!);
+            priorities.splice(newIndex, 0, priorities.splice(oldIndex, 1)[0]);
+            setAnswer('goalPriorities', JSON.stringify(priorities));
+            console.log(priorities);
+          },
+        })
+      );
+    }
   }
 ];
 

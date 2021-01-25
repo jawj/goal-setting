@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "@types/markdown-it": "^12.0.1",
+    "@types/sortablejs": "^1.10.6",
     "markdown-it": "^12.0.4",
-    "mithril": "^2.0.4"
+    "mithril": "^2.0.4",
+    "sortablejs": "^1.13.0"
   },
   "devDependencies": {
     "@types/mithril": "^2.0.6",

@@ -80,7 +80,9 @@ button:focus {
 
 .question {
   margin: 2em 0;
-  border-top: 1px solid #eee;
+}
+.question p {
+  margin: 0.5em 0;
 }
 
 .questionText {
@@ -98,4 +100,14 @@ button:focus {
 
 .disabled {
   opacity: 0.5;
+}
+
+.sortable li {
+  padding: 0.5em 1em;
+  border: 1px solid #aaa;
+  margin-bottom: 5px;
+  cursor: ns-resize;
+}
+.sortable-ghost {
+  background: #ddd;
 }
