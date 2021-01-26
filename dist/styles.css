@@ -117,3 +117,14 @@ button:focus {
 .sortable-ghost {
   background: #ddd !important;
 }
+
+
+.progress-container {
+  border-top: 1px solid #269;
+  margin: 1em 0;
+  opacity: 0.5;
+}
+.progress-bar {
+  height: 3px;
+  background: #269;
+}

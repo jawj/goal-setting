@@ -472,11 +472,14 @@ export const pages = <const>[
 ];
 
 export const
-  pageWithId = Object.fromEntries(pages.map(p => ['/' + p.id, p])),
+  pageWithPath = Object.fromEntries(pages.map(p => ['/' + p.id, p])),
   pageIdBefore = Object.fromEntries(pages.map((p, i) => ['/' + p.id, pages[i - 1]?.id])),
   pageIdAfter = Object.fromEntries(pages.map((p, i) => ['/' + p.id, pages[i + 1]?.id])),
+  progressAtPath = Object.fromEntries(pages.map((p, i, arr) => ['/' + p.id, i / (arr.length - 1)])),
+
   goto = (pageId: string, target: HTMLElement | null) => {
     m.route.set('/' + pageId);
     window.scrollTo(0, 0);
     target?.blur();
   };
+

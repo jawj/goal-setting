@@ -1,7 +1,8 @@
 import m from 'mithril';
-import { pageIdAfter, pageIdBefore, goto } from './pages';
+import { pageIdAfter, pageIdBefore, goto, progressAtPath } from './pages';
 import { isAnswerValid, AnswersValid } from './answers';
 import Markdown from './Markdown';
+import ProgressBar from './ProgressBar';
 
 interface PageAttrs {
   title: string;
@@ -13,16 +14,17 @@ interface PageState {
   minSecondsElapsed: boolean;
 }
 
-const isComplete = (vnode: m.Vnode<PageAttrs, PageState>) => {
-  if (vnode.attrs.minSeconds && !vnode.state.minSecondsElapsed) return false;
+export const
+  isComplete = (vnode: m.Vnode<PageAttrs, PageState>) => {
+    if (vnode.attrs.minSeconds && !vnode.state.minSecondsElapsed) return false;
 
-  const
-    { children } = vnode,
-    questionIds: (keyof AnswersValid)[] = !Array.isArray(children) ? [] :
-      children.map((c: any) => c.tag?.type === 'question' ? c.attrs?.id : undefined).filter(c => c !== undefined);
+    const
+      { children } = vnode,
+      questionIds: (keyof AnswersValid)[] = !Array.isArray(children) ? [] :
+        children.map((c: any) => c.tag?.type === 'question' ? c.attrs?.id : undefined).filter(c => c !== undefined);
 
-  return questionIds.every(id => isAnswerValid(id));
-};
+    return questionIds.every(id => isAnswerValid(id));
+  };
 
 export const Page: m.Component<PageAttrs, PageState> = {
   oninit: (vnode) => {
@@ -49,6 +51,7 @@ export const Page: m.Component<PageAttrs, PageState> = {
           'Next »');
 
     return m('div.page',
+      m(ProgressBar, { frac: progressAtPath[currentPageId] }),
       m('h1', m(Markdown, vnode.attrs.title)),
       m(Markdown, vnode.children),
       m('.navigation', prevButton, nextButton),
