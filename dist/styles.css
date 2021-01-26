@@ -50,7 +50,11 @@ p.response.incomplete:before {
   opacity: 1;
 }
 
-button {
+.button {
+  display: inline-block;
+  text-decoration: none;
+}
+button, .button {
   cursor: pointer;
   color: #fff;
   font: lighter 18px/1 'Source Sans Pro', sans-serif;
@@ -63,10 +67,10 @@ button {
 button + button {
   margin-left: 0.5em;
 }
-button:hover {
+button:hover, .button:hover {
   background: #37a;
 }
-button:active {
+button:active, .button:active {
   background: #fff;
   border-color: #269;
   color: #269;
@@ -79,8 +83,9 @@ button:focus {
   font: 14px 'Source Sans Pro';
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #888;
+  color: #269;
   text-align: center;
+  opacity: 0.5;
 }
 
 .question {

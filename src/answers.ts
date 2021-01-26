@@ -7,6 +7,12 @@ for (let i = 1; i <= numGoals; i++) goalIndices.push(i);
 
 export type GoalIndex = 1 | 2 | 3 | 4 | 5 | 6;
 type GoalTitle = `goalTitle${GoalIndex}`;
+type GoalDescription = `goalDescription${GoalIndex}`;
+type EvaluateMotives = `evaluateMotives${GoalIndex}`;
+type BroadImpacts = `broadImpacts${GoalIndex}`;
+type DetailedStrategies = `detailedStrategies${GoalIndex}`;
+type ObstaclesSolutions = `obstaclesSolutions${GoalIndex}`;
+type MonitorProgress = `monitorProgress${GoalIndex}`;
 
 export type Answers = Partial<
   {
@@ -25,7 +31,21 @@ export type Answers = Partial<
   } & {
     [K in GoalTitle]: string;
   } & {
+    [K in GoalDescription]: string;
+  } & {
     goalPriorities: GoalIndex[];
+  } & {
+    [K in EvaluateMotives]: string;
+  } & {
+    [K in BroadImpacts]: string;
+  } & {
+    [K in BroadImpacts]: string;
+  } & {
+    [K in DetailedStrategies]: string;
+  } & {
+    [K in ObstaclesSolutions]: string;
+  } & {
+    [K in MonitorProgress]: string;
   }
 >;
 

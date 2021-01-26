@@ -3,8 +3,11 @@ import { Page } from './Page';
 import { Question } from './Question';
 import { SortableList } from './SortableList';
 import { Answers, getAnswer, GoalIndex, goalIndices, setAnswer } from './answers';
+import { stage1Report } from './reports';
 
 const goalHeading = (index: number) => `### Goal ${index}: ${getAnswer(`goalTitle${index}` as any)}`;
+
+let stage1ReportUrl: string;
 
 export const pages = <const>[
   {
@@ -160,11 +163,11 @@ export const pages = <const>[
     view: () => m(Page,
       { title: 'Your family life in the future (6/8)' },
       `
-        Take a moment to consider your home and family life. Peaceful, harmonious family life provides people with a sense of belonging, support for their ambitions, and reciprocal purpose. Describe what your ideal family would be like. You can write about your parents and siblings, or about your plans for your own partner, or about your children, if any — or about all of these. What kind of partner would be good for you? How could you improve your relationship with your parents or siblings?
+        Take a moment to consider your home and family life. Peaceful, harmonious family life provides people with a sense of belonging, support for their ambitions, and reciprocal purpose. Describe what your ideal family life would be like. You can write about your parents and siblings, or about your plans for your own partner, or about your children, if any — or about all of these. What kind of partner would be good for you? How could you improve your relationship with your parents or siblings?
 
         Think and write for at least two minutes, then move on.   
       `,
-      m(Question, { id: 'familyFuture', size: 'medium', minWords: 10 }, `Describe what your ideal family would be like.`)
+      m(Question, { id: 'familyFuture', size: 'medium', minWords: 10 }, `Describe what your ideal family life would be like.`)
     )
   },
   {
@@ -239,6 +242,25 @@ export const pages = <const>[
     )
   },
   {
+    id: 'stage1-complete',
+    oninit: () => {
+      stage1ReportUrl = URL.createObjectURL(new Blob([stage1Report()], { type: 'text/html' }));
+    },
+    onremove: () => {
+      URL.revokeObjectURL(stage1ReportUrl);
+    },
+    view: () => m(Page,
+      { title: 'Stage 1 completed' },
+      `
+        Congratulations! You have now realized a vision of your ideal future, and outlined a future that is best avoided. You can use the summary of this vision to help you complete Stage 2 of the Ideal Future planning process.
+
+        <p style="margin: 2em 0;"><a href="${stage1ReportUrl}" download="goals_stage_1_summary.html" class="button">
+          Download stage 1 summary
+        </a></p>
+      `
+    )
+  },
+  {
     id: 'stage2',
     view: () => m(Page,
       { title: '_Stage 2_ &nbsp; Specific goal identification: Introduction' },
@@ -277,8 +299,8 @@ export const pages = <const>[
       `,
       ...(goalIndices.reduce<any[]>((memo, index) => memo.concat([
         `### Goal ${index}`,
-        m(Question, { id: `goalTitle${index}` as any, size: 'small', minWords: 1 }, `Main goal title`),
-        m(Question, { id: `goalDescription${index}` as any, size: 'medium', minWords: 1 }, `Main goal description`),
+        m(Question, { id: `goalTitle${index}` as any, size: 'small', minWords: 1 }, `Goal title`),
+        m(Question, { id: `goalDescription${index}` as any, size: 'medium', minWords: 1 }, `Goal description`),
       ]), []))
     )
   },
