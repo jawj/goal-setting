@@ -4,6 +4,8 @@ import { Question } from './Question';
 import { SortableList } from './SortableList';
 import { Answers, getAnswer, GoalIndex, goalIndices, setAnswer } from './answers';
 
+const goalHeading = (index: number) => `### Goal ${index}: ${getAnswer(`goalTitle${index}` as any)}`;
+
 export const pages = <const>[
   {
     id: 'welcome',
@@ -277,8 +279,7 @@ export const pages = <const>[
         `### Goal ${index}`,
         m(Question, { id: `goalTitle${index}` as any, size: 'small', minWords: 1 }, `Main goal title`),
         m(Question, { id: `goalDescription${index}` as any, size: 'medium', minWords: 1 }, `Main goal description`),
-      ]), [])
-      )
+      ]), []))
     )
   },
   {
@@ -306,7 +307,168 @@ export const pages = <const>[
         })
       );
     }
-  }
+  },
+  {
+    id: 'strategize-goals',
+    view: () => m(Page,
+      { title: 'Strategizing about your goals' },
+      `
+        Now you will be asked about the following elements or feature for each of the specific goals you have identified:
+
+        * Evaluating your motives
+        * Considering the broad personal and social impact of goals
+        * Considering the detailed strategies for goal attainment
+        * Identifying potential obstacles and their solutions
+        * Monitoring progress towards desired goals
+
+        Thus, the five pages that contain these elements or features will repeat until all your goals have been assessed. 
+      `,
+    )
+  },
+  ...(goalIndices.reduce<any[]>((memo, index) => memo.concat([
+    {
+      id: `strategize-goal-${index}`,
+      view: () => m(Page,
+        { title: `Strategizing about goal ${index}: ${getAnswer(`goalTitle${index}` as any)}` },
+        `
+          In the ${index === 0 ? `first` : index === goalIndices.length - 1 ? `last` : `next`} 
+          set of five pages, you'll be asked about goal ${index}.
+        `,
+      )
+    },
+    {
+      id: `evaluate-motives-${index}`,
+      view: () => m(Page,
+        { title: `Evaluating your motives` },
+        `
+          For this goal, you might want to consider issues such as the following:
+
+          * Do you truly believe that pursuing this goal is important?
+          * Would you feel ashamed, guilty or anxious if you didn't?
+          * Do you want to achieve this goal personally, or are you doing it to please someone else? (It is often a good thing to do something for someone else, but you should know when you are doing that).
+          * Are you pursuing this goal because the situation that you find yourself in in seems to demand it?
+          * Is the pursuit of this goal enjoyable, stimulating or satisfying?
+          * Is this goal part of a deeply felt personal dream?
+
+          Please spend a minute or two writing down your reasons for pursuing this goal.
+
+          ${goalHeading(index)}
+        `,
+        m(Question, { id: `evaluateMotives${index}` as any, size: 'medium', minWords: 10 }, `Reasons for pursuing this goal`),
+      )
+    },
+    {
+      id: `broad-impacts-${index}`,
+      view: () => m(Page,
+        { title: `Considering the broad personal and social impact of goals` },
+        `
+          Goals can have an impact beyond the obvious. Our specific personal goals are connected to larger, more important life goals. These higher-order goals reflect our most important ideals. The specific goal of spending more time studying or reading, for example, is a specific element of the more important goal of being a well-educated person. Achieving other specific goals, such as becoming more assertive, help us to move closer to our ideal self.
+
+          You will now be asked to write about what more globally important things might be affected by your attainment the goal listed below:
+
+          * How would disciplined success change the way that you see yourself?
+          * How would other parts of your personal life change, in consequence?
+          * How would this affect the way that others perceive you? (You might also consider fears of being successful. Sometimes people are afraid to succeed because of the responsibility this would entail. Sometimes they are afraid of even becoming conscious of their true goals, because then they would be aware when they fail. These are not good strategies.)
+          * How would attaining this goal affect the lives of the people around you?
+          * What broader beneficial social impact might your success have?
+
+          Please write a short description of how attaining this goal would change additional important aspects of your life, and the lives of others.
+
+          ${goalHeading(index)}
+        `,
+        m(Question, { id: `broadImpacts${index}` as any, size: 'medium', minWords: 10 }, `How would attaining this goal change additional important aspects of your life, and the lives of others?`),
+      )
+    },
+    {
+      id: `detailed-strategies-${index}`,
+      view: () => m(Page,
+        { title: `Considering detailed strategies for goal attainment` },
+        `
+          Goals are related to lesser, smaller sub-goals and behaviors, as well as connected to higher-order, more important abstract goals. Sub-goals are easier to achieve, but are still fundamental to reaching our greater aspirations. Sub-goals can thus be thought of as strategies for greater goal achievement. Thinking about what specific things need to be done in order to achieve your goals allows you to create practical strategies for realizing your dreams. Please take some time to write about the concrete daily or weekly things you might do to further your goal. Deeply consider what particular behaviors this goal is built upon.
+
+          * Should you spend more time planning at school or at work?
+          * Do you need to spend more time with your friends, or your children?
+          * Do you need to discuss household chores with your roommates, partner or spouse?
+
+          Specify when you are going to work on your goal. Specify how often. Specify where. Think hard about how you are going to implement your plans. Make your plans concrete.
+
+          Write down those concrete weekly or daily things you might do to further this goal. 
+
+          ${goalHeading(index)}
+        `,
+        m(Question, { id: `detailedStrategies${index}` as any, size: 'medium', minWords: 10 }, `Specify when you are going to work on your goal. Specify how often. Specify where. Think hard about how you are going to implement your plans. Make your plans concrete.`),
+      )
+    },
+    {
+      id: `obstacles-solutions-${index}`,
+      view: () => m(Page,
+        { title: `Identifying potential obstacles and their solutions` },
+        `
+          Thinking about achieving a goal is obviously easier than going out and getting it done. Many things related to the natural environment, the social group and the self can stand in your way. It is useful to anticipate these difficulties, so that you can plan to overcome them.
+
+          Consider your goal, once again. Write down all the potential obstacles you can think up. Write down ways to overcome these obstacles.
+
+          How might you interfere with your own plans? How can you ensure this won't happen? Sometimes change is threatening to people we know and love. Will the people you know help you, or interfere? How can you communicate with them, so that they will support you? Think of realistic and worst-case scenarios. What are your options? What are your alternative plans?
+
+          Write down potential obstacles to this goal, and specify the ways you might overcome them. 
+
+          ${goalHeading(index)}
+        `,
+        m(Question, { id: `obstaclesSolutions${index}` as any, size: 'medium', minWords: 10 }, `Write down potential obstacles to this goal, and specify the ways you might overcome them.`),
+      )
+    },
+    {
+      id: `monitor-progress-${index}`,
+      view: () => m(Page,
+        { title: `Monitoring progress towards desired goals` },
+        `
+          We need to know, concretely, whether or not we are progressing towards the attainment of valued goals. Of course, this is not an easy task. When we want to complete very specific tasks, feedback on our performance is relatively easy to monitor. However, if our goals are less short-term, this becomes a little more difficult.
+
+          You are now being asked to identify personal benchmarks that will allow you to evaluate your own performance.
+
+          * When would you like to achieve this goal? Be specific. Even if you have to revise a deadline later, it is still better to set one.
+          * What sorts of things will you accept as evidence that you are progressing towards your stated goal?
+          * How often are you going to monitor your own behavior?
+          * How will things in your life have to change, measurably, for you to feel satisfied in your progress?
+          * How can you ensure that you are neither pushing yourself too hard, and ensuring failure, or being too easy on yourself, and risking boredom and cynicism?
+
+          Your benchmarks should be personal indicators of success. It doesn't matter what others may think defines progress towards your goal. Write down those accomplishments would truly indicate positive movement on your part. Feel free to write as much as you feel is necessary.
+
+          Write down how you might monitor your progress with regards to this goal.  
+
+          ${goalHeading(index)}
+        `,
+        m(Question, { id: `monitorProgress${index}` as any, size: 'medium', minWords: 10 }, `Write down how you might monitor your progress with regards to this goal.`),
+      )
+    }
+  ]), [])),
+  {
+    id: `future-steps`,
+    view: () => m(Page,
+      { title: `Future steps` },
+      `
+        People often worry themselves unproductively by constantly revisiting their goals, instead of concentrating on their attainment. It is easy to undermine yourself, by always questioning your aims and intentions. Am I doing the right thing? Have I chosen the correct goals? This leads to chronic worry, unproductive behavior, and lack of opportunity to learn.
+
+        * Now that you have set goals, it is best to concentrate on a daily or weekly basis on implementing the strategies you have devised for their attainment, instead of worrying about the goals themselves. It is just as important to stick to a plan, as it is to make a plan.
+        * If you implement your goals, even if they are not perfect, you will learn enough during the implementation phase to make better goals next time. As you continue to repeat the process, you will get wiser and wiser.
+        * Set aside some time every week or two — no more than ten or twenty minutes — to mentally review your performance. You will gather all sorts of useful information that you can use to reconsider your plans, down the road.
+
+        Researchers have found that if someone performs goal-setting tasks multiple times over a long period, there is a greater chance of health and productivity improvements.
+
+        As a result, you might wish to engage in this sort of exercise on a regular basis, every four, six, or twelve months, as your situation changes. 
+      `,
+    )
+  },
+  {
+    id: `congrats`,
+    view: () => m(Page,
+      { title: `Congratulations — you've finished` },
+      `
+        Thank you for taking the time to complete this exercise.
+      `,
+    )
+  },
+
 ];
 
 export const

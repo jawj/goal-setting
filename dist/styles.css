@@ -1,7 +1,7 @@
 
 html {
   margin: 1em 20%;
-  font: 16px/1.4 'Source Serif Pro', serif;
+  font: 16px/1.5 'Source Serif Pro', serif;
   color: #444;
 }
 
@@ -17,6 +17,11 @@ h1 {
   max-width: 80%;
 }
 
+li {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
 @media (max-width: 600px) {
   html {
     margin: 1em 1em;
@@ -28,7 +33,7 @@ h1 {
 
 textarea {
   width: 100%;
-  font: 16px/1.4 'Source Sans Pro', sans-serif;
+  font: 16px/1.25 'Source Sans Pro', sans-serif;
   padding: 0.5em;
   box-sizing: border-box;
 }
@@ -107,7 +112,8 @@ button:focus {
   border: 1px solid #aaa;
   margin-bottom: 5px;
   cursor: ns-resize;
+  background: #fff;
 }
 .sortable-ghost {
-  background: #ddd;
+  background: #ddd !important;
 }
