@@ -57,11 +57,17 @@ ${getAnswer(item.answer)}
   stage2Markdown = () => stage1Markdown() + `
 # Stage 2 summary
 
-Ideal future title: <b>${getAnswer('idealFutureTitle')}</b>
+### Ideal future: title
 
-Ideal future description: <b>${getAnswer('idealFutureDescription')}</b>
+${getAnswer('idealFutureTitle')}
 
-Your goals are listed highest-priority first.
+### Ideal future: description
+
+${getAnswer('idealFutureDescription')}
+
+<br />
+
+_Your goals are listed highest-priority first._
 
 ${JSON.parse(getAnswer('goalPriorities') ?? '[]').map((index: number, i: number) => `
 ## Goal ${i + 1}: <i>${getAnswer('goalTitle' + index as any)}</i>

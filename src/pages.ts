@@ -502,15 +502,20 @@ export const pages = <const>[
 
         Your answers will be stored in your web browser indefinitely, which may be useful if you come to review this exercise in future. However, you can also erase your answers if you prefer.
       `,
-      m('p', { style: 'margin: 2em 0;' }, m('a.button', {
-        onclick: () => {
-          if (confirm("Erase all your answers? This action cannot be undone.")) {
-            localStorage.clear();
-            m.route.set('');
+      m('p', { style: 'margin: 2em 0;' },
+        m('a.button', {
+          style: 'background: #f00;',
+          onclick: () => {
+            if (confirm("Erase all your answers? This action cannot be undone.")) {
+              localStorage.clear();
+              m.route.set('');
+            }
           }
-        }
-      }, 'Erase my answers')
-      )
+        }, 'Erase my answers'),
+        m('a.button', {
+          onclick: () => m.route.set('')
+        }, 'Return to start')
+      ),
     )
   },
 

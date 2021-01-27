@@ -64,7 +64,7 @@ button, .button {
   border: 1px solid transparent;
   transition: opacity 0.5s;
 }
-button + button {
+button + button, .button + .button {
   margin-left: 0.5em;
 }
 button:hover, .button:hover {
