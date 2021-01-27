@@ -3,11 +3,13 @@ import { Page } from './Page';
 import { Question } from './Question';
 import { SortableList } from './SortableList';
 import { Answers, getAnswer, GoalIndex, goalIndices, setAnswer } from './answers';
-import { stage1Report } from './reports';
+import { stage1Report, stage2Report } from './reports';
 
 const goalHeading = (index: number) => `### Goal ${index}: ${getAnswer(`goalTitle${index}` as any)}`;
 
-let stage1ReportUrl: string;
+let
+  stage1ReportUrl: string,
+  stage2ReportUrl: string;
 
 export const pages = <const>[
   {
@@ -483,10 +485,20 @@ export const pages = <const>[
   },
   {
     id: `congrats`,
+    oninit: () => {
+      stage2ReportUrl = URL.createObjectURL(new Blob([stage2Report()], { type: 'text/html' }));
+    },
+    onremove: () => {
+      URL.revokeObjectURL(stage2ReportUrl);
+    },
     view: () => m(Page,
       { title: `Congratulations — you've finished` },
       `
         Thank you for taking the time to complete this exercise.
+
+        <p style="margin: 2em 0;"><a href="${stage2ReportUrl}" download="goals_complete_summary.html" class="button">
+          Download complete summary
+        </a></p>
       `,
     )
   },
