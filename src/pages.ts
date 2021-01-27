@@ -494,12 +494,23 @@ export const pages = <const>[
     view: () => m(Page,
       { title: `Congratulations — you've finished` },
       `
-        Thank you for taking the time to complete this exercise.
+        Thank you for taking the time to complete this exercise. You can download a summary of your answers below.
 
         <p style="margin: 2em 0;"><a href="${stage2ReportUrl}" download="goals_complete_summary.html" class="button">
           Download complete summary
         </a></p>
+
+        Your answers will be stored in your web browser indefinitely, which may be useful if you come to review this exercise in future. However, you can also erase your answers if you prefer.
       `,
+      m('p', { style: 'margin: 2em 0;' }, m('a.button', {
+        onclick: () => {
+          if (confirm("Erase all your answers? This action cannot be undone.")) {
+            localStorage.clear();
+            m.route.set('');
+          }
+        }
+      }, 'Erase my answers')
+      )
     )
   },
 
