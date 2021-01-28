@@ -23,7 +23,7 @@ export const pages = <const>[
 
         Your data is saved continuously as you type. It is saved locally, to this device: nothing is sent elsewhere.
 
-        You may quit the exercise any time by closing this tab or window. You can come back to the exercise later, and resume your work. All your previous work will be waiting for you, and will be taken to the last point in the exercise you're were working on.
+        You may quit the exercise any time by closing this tab or window. You can come back to the exercise later and resume your work.
       `
     )
   },
@@ -52,11 +52,11 @@ export const pages = <const>[
     view: () => m(Page,
       { title: 'General instructions (2)' },
       `
-        This exercise is designed to benefit you. On many pages you will not be able to skip forward without spending a minimum required time writing.
+        This exercise is designed to benefit you. On many pages you will not be able to skip forward without writing a minimum amount.
 
         We do encourage you to write in some detail. Research indicates that better results are obtained as the amount written by participants increases.
 
-        After you have completed the exercise, you will be taken to a summary page, where you can save a copy of your writing.
+        After each of the exercise's two stages you will be taken to a summary page, where you can save a copy of your writing.
       `
     )
   },
@@ -95,7 +95,7 @@ export const pages = <const>[
       `
         If you could choose only one thing that you could do better, what would it be?
 
-        Think and write for at least two minutes, then move on.
+        Think and write for **at least two minutes**, then move on.
 
         <p class="calm">Don't rush — this exercise is for your benefit.</p>
       `,

@@ -14,7 +14,8 @@ h1, h2, h3, h4, h5 {
 h1 {
   font-weight: 500;
   font-size: 30px;
-  max-width: 80%;
+  max-width: 85%;
+  /* margin-right: 4em; */
 }
 
 li {
@@ -133,3 +134,13 @@ button:focus {
   height: 3px;
   background: #269;
 }
+
+/*
+.timer {
+  color: #269;
+  opacity: 0.5;
+  float: right;
+  margin-top: 2.75em;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+*/

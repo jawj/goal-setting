@@ -12,6 +12,7 @@ interface PageAttrs {
 interface PageState {
   initTime: number;
   minSecondsElapsed: boolean;
+  interval: ReturnType<typeof setInterval>;
 }
 
 export const
@@ -36,7 +37,9 @@ export const Page: m.Component<PageAttrs, PageState> = {
         m.redraw();
       }, 1000 * vnode.attrs.minSeconds);
     }
+    // vnode.state.interval = setInterval(m.redraw, 1000);
   },
+  // onremove: (vnode) => clearInterval(vnode.state.interval),
   view: (vnode) => {
     const
       currentPageId = m.route.get(),
@@ -48,10 +51,15 @@ export const Page: m.Component<PageAttrs, PageState> = {
       nextButton = pageIdAfter[currentPageId] &&
         m(`button.next.${complete ? 'enabled' : 'disabled'}`,
           { onclick: (e: Event) => complete ? goto(pageIdAfter[currentPageId], e.target as HTMLElement) : alert('Please complete all questions to proceed.') },
-          'Next »');
+          'Next »')/*,
+      seconds = (Date.now() - vnode.state.initTime) / 1000,
+      mins = Math.floor(seconds / 60),
+      displayTime = mins < 1 ? `< 1 min` : mins < 2 ? `1 min` : mins < 60 ? `${mins} mins` : '1 hour+'
+      */;
 
     return m('div.page',
       m(ProgressBar, { frac: progressAtPath[currentPageId] }),
+      /* m('.timer', m.trust(`${displayTime} so far`)), */
       m('h1', m(Markdown, vnode.attrs.title)),
       m(Markdown, vnode.children),
       m('.navigation', prevButton, nextButton),
